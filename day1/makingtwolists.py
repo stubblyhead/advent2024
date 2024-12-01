@@ -1,4 +1,4 @@
-lines = open('testcase')
+lines = open('input')
 
 left = []
 right = []
