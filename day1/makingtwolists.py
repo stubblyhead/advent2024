@@ -15,3 +15,9 @@ dist = 0
 for i in range(len(left)):
     dist += abs(left[i] - right[i])
 print(dist)
+
+similarity = 0
+for i in left:
+    similarity += i * right.count(i)
+
+print(similarity)
