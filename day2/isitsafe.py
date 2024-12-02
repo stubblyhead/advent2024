@@ -1,4 +1,4 @@
-reports = open('testcase').readlines()
+reports = open('input').readlines()
 
 safecount = 0
 for l in reports:
@@ -29,35 +29,45 @@ for l in reports:
 
 print(safecount)
 
+def is_safe(report):
+    """
+    in: report as list of ints
+    out: True if report is safe, False otherwise
+    """
+    safe = True
+    increasing = None
+    if report[0] > report[-1]:  #generally decreasing
+            increasing = False
+    elif report[0] < report[-1]:  #generally increasing
+            increasing = True
+    else:  #generally static (not safe), so go to next report
+        return False
+    if increasing:
+        for n in range(len(report)-1): #compare the current number to the next number
+            diff = report[n+1]-report[n]
+            if diff > 3 or diff <= 0: #delta is more than two or is static or decreasing
+                safe = False  #report is unsafe, so we can stop checking this one
+                break 
+    else:
+        for n in range(len(report)-1): #now do the same thing but check for decreasing
+            diff = report[n]-report[n+1]
+            if diff > 3 or diff <= 0: 
+                safe = False
+                break 
+    return safe
+
+
 #part 2
 safecount = 0
 for r in reports:
     levels = list(map(int,r.split()))
-    safe = True  #still assume true and try to prove false
-    damped = False #keep track of if damper has triggered for this report
-    increasing = None #don't really like how I'm doing this, feels yucky
-    if levels[0] > levels[-1]:  #generally decreasing
-            increasing = False
-    elif levels[0] < levels[-1]:  #generally increasing
-            increasing = True
-    else:  #generally static (not safe), so go to next report
-        next
-    
-    while len(levels) > 1:
-        cur = levels.pop() #get one off the end
-        if increasing:
-            if cur-levels[-1] in [1,2,3]: #last two differ by at least one and no more than three
-                continue #can check new last pair
-        else:
-            if levels[-1]-cur in [1,2,3]:
-                continue
-        if damped:
-            safe = False #second unsafe level change for this report, so entire report is unsafe
-            break #don't need to keep checking this one
-        else:
-            levels[-1] = cur #replace last item with one we popped previously and try again
-            damped = True
-    if safe:
+    safe = is_safe(levels)
+    if safe:  #if the list is safe as-is, no need to do anything further
         safecount += 1
+    else:  #remove each element in turn.  if any of these are safe, then the full report is safe as well
+        for i in range(len(levels)):
+            if is_safe(levels[0:i]+levels[i+1:]):
+                safecount += 1
+                break
 
 print(safecount)
