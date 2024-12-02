@@ -1,4 +1,4 @@
-reports = open('testcase').readlines()
+reports = open('input').readlines()
 
 safecount = 0
 for l in reports:
