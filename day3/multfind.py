@@ -26,7 +26,7 @@ def remove_dont(memstr):
         do_start = memstr.index("do()")
         return memstr[do_start:]
     else:
-        return memstr
+        return ''
 
 total = 0
 mem = open('input').readlines()
