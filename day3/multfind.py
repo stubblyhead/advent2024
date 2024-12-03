@@ -4,7 +4,7 @@ mem = open('input').readlines()
 def do_mult(memstr):
     pattern = "mul\(\d+,\d+\)"
     total = 0
-    matches = re.findall(pattern, m)
+    matches = re.findall(pattern, memstr)
     for i in matches:
         args = i[4:-1].split(',')
         total += int(args[0]) * int(args[1])
