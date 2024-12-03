@@ -29,15 +29,15 @@ def remove_dont(memstr):
         return ''
 
 total = 0
-mem = open('input').readlines()
-for m in mem:
-    do_part = ''
-    while len(m) > 0:
-        cur = extract_do(m)  #get up to the next don't()
-        do_part += cur  #add it to the stuff you're supposed to use
-        m = m[len(cur):]  #remove that from the current line; should now either start with don't() or be empty
-        m = remove_dont(m)  #get from the next do() to EOL; should now either start with do() or be empty
-    total += do_mult(do_part)
+mem = open('input').read()
+
+do_part = ''
+while len(mem) > 0:
+    cur = extract_do(mem)  #get up to the next don't()
+    do_part += cur  #add it to the stuff you're supposed to use
+    mem = mem[len(cur):]  #remove that from the current line; should now either start with don't() or be empty
+    mem = remove_dont(mem)  #get from the next do() to EOL; should now either start with do() or be empty
+total += do_mult(do_part)
 
 print(total)
 
