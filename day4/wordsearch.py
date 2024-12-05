@@ -99,9 +99,21 @@ class Grid:
             if word == 'XMAS':
                 count += 1
         return count
+    
+    def check_x_mas(self, row, col):
+        g = self.grid
+        if g[row][col] != 'A': # just in case
+            return False
+        
+        corners = g[row-1][col-1]+g[row-1][col+1]+g[row+1][col+1]+g[row+1][col-1]
+        if corners in ['MSSM','MMSS','SMMS','SSMM']:
+            return True
+        else:
+            return False
+        
 
 
-lines = open('testcase').readlines()
+lines = open('input').readlines()
 my_grid = Grid(lines)
 count = 0
 for row in range(len(my_grid.grid)):
@@ -109,4 +121,11 @@ for row in range(len(my_grid.grid)):
         if my_grid.grid[row][col] == 'X':
             count += my_grid.get_xmas_count(row,col)
 
+print(count)
+
+count = 0
+for row in range(1,len(my_grid.grid)-1):
+    for col in range(1,len(my_grid.grid[0])-1):
+        if my_grid.grid[row][col] == 'A' and my_grid.check_x_mas(row,col):
+            count += 1
 print(count)
