@@ -24,7 +24,7 @@ for m in manuals:
                 break
         # don't need to do anything if manual doesn't contain all in r
 
-        if valid:
-            count += m[int(len(m)/2)]
+    if valid:
+        count += m[int(len(m)/2)]
 
 print(count)
