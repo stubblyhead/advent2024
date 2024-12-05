@@ -30,8 +30,8 @@ class Grid:
                 t_row -= 1
                 t_col -= 1
                 word += self.grid[t_row][t_col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
        
         if valid[1]:  # up
             word = self.grid[row][col]
@@ -39,8 +39,8 @@ class Grid:
             for i in range(3):
                 t_row -= 1
                 word += self.grid[t_row][col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
         
         if valid[2]:  # up and right
             word = self.grid[row][col]
@@ -49,8 +49,8 @@ class Grid:
                 t_row -= 1
                 t_col += 1
                 word += self.grid[t_row][t_col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
 
         if valid[3]:  # right
             word = self.grid[row][col]
@@ -58,8 +58,8 @@ class Grid:
             for i in range(3):
                 t_col += 1
                 word += self.grid[row][t_col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
 
         if valid[4]:  # down and right
             word = self.grid[row][col]
@@ -68,8 +68,8 @@ class Grid:
                 t_col += 1
                 t_row += 1
                 word += self.grid[t_row][t_col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
 
         if valid[5]:  # down
             word = self.grid[row][col]
@@ -77,8 +77,8 @@ class Grid:
             for i in range(3):
                 t_row += 1
                 word += self.grid[t_row][col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
        
         if valid[6]:  # down and left
             word = self.grid[row][col]
@@ -87,8 +87,8 @@ class Grid:
                 t_row += 1
                 t_col -= 1
                 word += self.grid[t_row][t_col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
         
         if valid[7]:  # left
             word = self.grid[row][col]
@@ -96,8 +96,8 @@ class Grid:
             for i in range(3):
                 t_col -= 1
                 word += self.grid[row][t_col]
-        if word == 'XMAS':
-            count += 1
+            if word == 'XMAS':
+                count += 1
         return count
 
 
