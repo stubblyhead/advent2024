@@ -16,10 +16,13 @@ count = 0
 for m in manuals:
     valid = True  # assume valid
     for r in rules:
-        if r[0] in m and r[1] in m and (m.index(r[0]) < m.index(r[1])):
-            next
-        else:
-            valid = False
+        if r[0] in m and r[1] in m:  # if m contains both elements of r...
+            if (m.index(r[0]) < m.index(r[1])):  # ...and the first element of r comes first
+                next  # go to next rule, this one is in compliance
+            else:
+                valid = False  # otherwise manual is not valid so we can skip the rest of the rules
+                break
+        # don't need to do anything if manual doesn't contain all in r
 
         if valid:
             count += m[int(len(m)/2)]
