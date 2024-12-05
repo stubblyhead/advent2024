@@ -22,8 +22,9 @@ class Grid:
     def get_xmas_count(self,row,col):
         valid = self.valid_dirs(row,col)
         count = 0
-        if valid[0]:  # i hate this, but I'm not sure how else to do it 
-            word = self.grid[row][col]
+        word = ''  # i hate this, but I'm not sure how else to do it
+        if valid[0]:   # up and left
+            word = self.grid[row][col]  
             t_row,t_col = row,col
             for i in range(3):
                 t_row -= 1
@@ -32,7 +33,7 @@ class Grid:
         if word == 'XMAS':
             count += 1
        
-        if valid[1]:
+        if valid[1]:  # up
             word = self.grid[row][col]
             t_row = row
             for i in range(3):
@@ -41,7 +42,7 @@ class Grid:
         if word == 'XMAS':
             count += 1
         
-        if valid[2]:
+        if valid[2]:  # up and right
             word = self.grid[row][col]
             t_row,t_col = row,col
             for i in range(3):
@@ -51,16 +52,7 @@ class Grid:
         if word == 'XMAS':
             count += 1
 
-        if valid[3]:
-            word = self.grid[row][col]
-            t_col = col
-            for i in range(3):
-                t_col -= 1
-                word += self.grid[row][t_col]
-        if word == 'XMAS':
-            count += 1
-
-        if valid[4]:
+        if valid[3]:  # right
             word = self.grid[row][col]
             t_col = col
             for i in range(3):
@@ -69,32 +61,41 @@ class Grid:
         if word == 'XMAS':
             count += 1
 
-        if valid[5]:  
+        if valid[4]:  # down and right
+            word = self.grid[row][col]
+            t_col,t_row = col,row
+            for i in range(3):
+                t_col += 1
+                t_row += 1
+                word += self.grid[t_row][t_col]
+        if word == 'XMAS':
+            count += 1
+
+        if valid[5]:  # down
             word = self.grid[row][col]
             t_row,t_col = row,col
             for i in range(3):
                 t_row += 1
-                t_col -= 1
-                word += self.grid[t_row][t_col]
+                word += self.grid[t_row][col]
         if word == 'XMAS':
             count += 1
        
-        if valid[6]:
+        if valid[6]:  # down and left
             word = self.grid[row][col]
-            t_row = row
+            t_row, t_col = row, col
             for i in range(3):
                 t_row += 1
-                word += self.grid[t_row][col]
+                t_col -= 1
+                word += self.grid[t_row][t_col]
         if word == 'XMAS':
             count += 1
         
-        if valid[7]:
+        if valid[7]:  # left
             word = self.grid[row][col]
-            t_row,t_col = row,col
+            t_col = col
             for i in range(3):
-                t_row += 1
-                t_col += 1
-                word += self.grid[t_row][t_col]
+                t_col -= 1
+                word += self.grid[row][t_col]
         if word == 'XMAS':
             count += 1
         return count
@@ -102,6 +103,10 @@ class Grid:
 
 lines = open('testcase').readlines()
 my_grid = Grid(lines)
+count = 0
 for row in range(len(my_grid.grid)):
     for col in range(len(my_grid.grid[0])):
-        print(f"{row} {col} {my_grid.valid_dirs(row,col)}")
+        if my_grid.grid[row][col] == 'X':
+            count += my_grid.get_xmas_count(row,col)
+
+print(count)
