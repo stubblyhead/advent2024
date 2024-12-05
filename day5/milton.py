@@ -1,4 +1,4 @@
-lines = open('testcase').readlines()
+lines = open('input').readlines()
 
 rules = []
 manuals = []
