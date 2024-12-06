@@ -17,7 +17,7 @@ class Grid:
                     self.guard_row = row
                     self.guard_col = col
                     found_guard = True
-                    self.visited.add([row,col])
+                    self.visited.add(tuple([row,col]))
                     break
             if found_guard:
                 break
@@ -44,21 +44,23 @@ class Grid:
             elif self.guard_dir == 'left':
                 return [self.guard_row,self.guard_col-1]
             
-        next = next_space()
-        if self.grid[next[0]][next[1]] == '#':  # turn right if the next space ahead is an obstacle
-            self.guard_turn()
-            return
-        
+        next = next_space(self)
         if next[0] in [-1,self.height] or next[1] in [-1,self.width]:  # if next space is OOB then mark exited and return
             self.guard_exited = True
             return
         
+        if self.grid[next[0]][next[1]] == '#':  # turn right if the next space ahead is an obstacle
+            self.guard_turn()
+            return
+        
         # otherwise update current position and add to set of visited spaces
         [self.guard_row, self.guard_col] = next
-        self.visited.add(next)
+        self.visited.add(tuple(next))
 
+lines = open('testcase').readlines()
+my_grid = Grid(lines)
 
+while not my_grid.guard_exited:
+    my_grid.guard_move()
 
-    
-
-    
+print(len(my_grid.visited))
