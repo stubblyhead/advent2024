@@ -28,3 +28,7 @@ for m in manuals:
         count += m[int(len(m)/2)]
 
 print(count)
+
+# rules are cylical, not really a single "order," would depend on the pages in the manual
+# I think I need to build a page order for each manual, filter out rules that include pages not in the manual
+applicable_rules = []
