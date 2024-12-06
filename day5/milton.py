@@ -1,4 +1,4 @@
-lines = open('testcase').readlines()
+lines = open('input').readlines()
 
 rules = []
 manuals = []
@@ -49,18 +49,33 @@ for m in incorrect_manuals:
         else:
             rule_dict[r[0]] = [r[1]]
             right_rules.append(r[1])
-    left_rules = list(rule_dict.keys())
+    # pretty sure they're in order by the length of the value arrays in rule_dict?
     order = []
-    while left_rules:
-        for l in left_rules:
-            if l not in right_rules:
-                order.append(l)
-                for r in rule_dict[l]:
-                    right_rules.remove(r)
-                left_rules.remove(l)
-                break
-    count += m[int(len(m)/2)]
+    last = 0
+    for i in range(len(m)-1,0,-1):  # for as many times as there are pages in the current manual...
+        found = False
+        while not found:
+            for k,v in rule_dict.items():  # ...check each applicable rule...
+                if len(v) == 1: # (but first if there's only one rule)
+                    last = v[0] # then it must be the last one in the sequence
+                if len(v) == i:  #  ...and if there are as many rules as the current count...
+                    order.append(k)  # ...add that page to the order
+                    found = True  # can move on to the page with one fewer rules
+                    break  # found the one with the most rules, so we can stop looking
+    order.append(last)          
+    # left_rules = list(rule_dict.keys())
+    # order = []
+    # while left_rules:
+    #     for l in left_rules:
+    #         if l not in right_rules:
+    #             order.append(l)
+    #             for r in rule_dict[l]:
+    #                 right_rules.remove(r)
+    #             left_rules.remove(l)
+    #             break
+    count += order[int(len(order)/2)]
     
+print(count)
 
 
     
