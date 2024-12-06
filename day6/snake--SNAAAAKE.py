@@ -57,7 +57,7 @@ class Grid:
         [self.guard_row, self.guard_col] = next
         self.visited.add(tuple(next))
 
-lines = open('testcase').readlines()
+lines = open('input').readlines()
 my_grid = Grid(lines)
 
 while not my_grid.guard_exited:
