@@ -85,7 +85,7 @@ while searchspace:
     my_grid = Grid(lines)  # starting with a fresh instance each time is probably a good idea
     my_grid.grid[cur[0]][cur[1]] = '#' # put an obstacle there
     [my_grid.guard_col,my_grid.guard_row,my_grid.guard_dir] = [my_grid.start_col, my_grid.start_row, 'up'] # put guard back at start
-    history = [[my_grid.start_col, my_grid.start_row, 'up']] # add starting position/orientation
+    history = [[my_grid.start_row, my_grid.start_col, 'up']] # add starting position/orientation
     my_grid.guard_exited = False
     while True:
         my_grid.guard_move()
