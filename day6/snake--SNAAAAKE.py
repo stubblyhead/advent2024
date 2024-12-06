@@ -34,6 +34,7 @@ class Grid:
             self.guard_dir = 'left'
         elif self.guard_dir == 'left':
             self.guard_dir = 'up'
+        self.grid[self.guard_row][self.guard_col] = '+'
 
     def guard_move(self):
         def next_space(self):  # determine what the next space is based on current direction of travel
@@ -58,6 +59,10 @@ class Grid:
         # otherwise update current position and add to set of visited spaces
         [self.guard_row, self.guard_col] = next
         self.visited.add(tuple(next))
+        if self.guard_dir in ['up','down']:
+            self.grid[self.guard_row][self.guard_col] = '|'
+        elif self.guard_dir in ['right','left']:
+            self.grid[self.guard_row][self.guard_col] = '-'
 
 lines = open('testcase').readlines()
 my_grid = Grid(lines)
@@ -65,6 +70,9 @@ my_grid = Grid(lines)
 while not my_grid.guard_exited:
     my_grid.guard_move()
 
+my_grid.grid[my_grid.start_row][my_grid.start_col] = '^'
+for l in my_grid.grid:
+    print(''.join(l))
 print(len(my_grid.visited))
 
 searchspace = my_grid.visited.copy() # only need to check visited spaces becuase adding an obstacle outside won't affect guard's movement
@@ -74,8 +82,8 @@ searchspace.remove(tuple([my_grid.start_col, my_grid.start_row]))  # can't use s
 loop_count = 0
 while searchspace:
     cur = searchspace.pop() # get a candidate to check
+    my_grid = Grid(lines)  # starting with a fresh instance each time is probably a good idea
     my_grid.grid[cur[0]][cur[1]] = '#' # put an obstacle there
-    #history = []
     [my_grid.guard_col,my_grid.guard_row,my_grid.guard_dir] = [my_grid.start_col, my_grid.start_row, 'up'] # put guard back at start
     history = [[my_grid.start_col, my_grid.start_row, 'up']] # add starting position/orientation
     my_grid.guard_exited = False
@@ -85,12 +93,18 @@ while searchspace:
             break
         if [my_grid.guard_row, my_grid.guard_col, my_grid.guard_dir] in history:  # if guard is in same position and direction for a second time then they must be in a loop so add to count and move to next
             loop_count += 1
+            my_grid.grid[my_grid.start_row][my_grid.start_col] = '^'
+            my_grid.grid[cur[0]][cur[1]] = 'O'
+            print(f'adding {cur} to list:')
+            for l in my_grid.grid:
+                print(''.join(l))
+            print('\n\n')
             break
-        history.append([my_grid.guard_col,my_grid.guard_row,my_grid.guard_dir])
-
-
-
-
-    my_grid.grid[cur[0]][cur[1]] = '.' # remove obstacle before moving to the next candidate
+        history.append([my_grid.guard_row,my_grid.guard_col,my_grid.guard_dir])
+    my_grid.grid[my_grid.start_row][my_grid.start_col] = '^'
+    
+    
+    # don't need to do this anymore since I'm using a new grid every time
+    # my_grid.grid[cur[0]][cur[1]] = '.' # remove obstacle before moving to the next candidate
 
 print(loop_count)
