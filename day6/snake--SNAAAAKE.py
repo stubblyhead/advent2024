@@ -67,14 +67,16 @@ while not my_grid.guard_exited:
 
 print(len(my_grid.visited))
 
-searchspace = my_grid.visited().copy() # only need to check visited spaces becuase adding an obstacle outside won't affect guard's movement
+searchspace = my_grid.visited.copy() # only need to check visited spaces becuase adding an obstacle outside won't affect guard's movement
 # i don't think copy() is strictly necessary here, but I've been bitten enough from not using it that it's probably a good idea anyway
-searchspace.remove(tuple(my_grid.start_col, my_grid.start_row))  # can't use starting position so remove from search space
+searchspace.remove(tuple([my_grid.start_col, my_grid.start_row]))  # can't use starting position so remove from search space
 
 loop_count = 0
 while searchspace:
     cur = searchspace.pop() # get a candidate to check
-    my_grid.grid[cur[0],cur[1]] = '#' # put an obstacle there
+    my_grid.grid[cur[0]][cur[1]] = '#' # put an obstacle there
+    #history = []
+    [my_grid.guard_col,my_grid.guard_row,my_grid.guard_dir] = [my_grid.start_col, my_grid.start_row, 'up'] # put guard back at start
     history = [[my_grid.start_col, my_grid.start_row, 'up']] # add starting position/orientation
     my_grid.guard_exited = False
     while True:
@@ -84,8 +86,11 @@ while searchspace:
         if [my_grid.guard_row, my_grid.guard_col, my_grid.guard_dir] in history:  # if guard is in same position and direction for a second time then they must be in a loop so add to count and move to next
             loop_count += 1
             break
+        history.append([my_grid.guard_col,my_grid.guard_row,my_grid.guard_dir])
 
 
 
 
-    my_grid.grid[cur[0],cur[1]] = '.' # remove obstacle before moving to the next candidate
+    my_grid.grid[cur[0]][cur[1]] = '.' # remove obstacle before moving to the next candidate
+
+print(loop_count)
