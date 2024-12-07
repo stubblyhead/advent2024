@@ -1,5 +1,5 @@
-import time
-import statistics
+# import time
+# import statistics
 
 class Grid:
     def __init__(self, lines):
@@ -102,7 +102,7 @@ class Grid:
         #     self.grid[self.guard_row][self.guard_col] = '-'
 
 lines = open('input').readlines()
-start = time.time()
+# start = time.time()
 my_grid = Grid(lines)
 while not my_grid.guard_exited:
     my_grid.guard_move()
@@ -111,18 +111,18 @@ while not my_grid.guard_exited:
 # for l in my_grid.grid:
 #     print(''.join(l))
 print(len(my_grid.visited))
-end = time.time()
-print(f'took {end-start}')
+# end = time.time()
+# print(f'took {end-start}')
 searchspace = my_grid.visited.copy() # only need to check visited spaces becuase adding an obstacle outside won't affect guard's movement
 # i don't think copy() is strictly necessary here, but I've been bitten enough from not using it that it's probably a good idea anyway
 searchspace.remove(tuple([my_grid.start_row, my_grid.start_col]))  # can't use starting position so remove from search space
 
 loop_count = 0
 check_count = 0
-durations = []
+# durations = []
 while searchspace:
     check_count += 1
-    start = time.time()
+    # start = time.time()
     cur = searchspace.pop() # get a candidate to check
     my_grid = Grid(lines)  # starting with a fresh instance each time is probably a good idea
     my_grid.grid[cur[0]][cur[1]] = '#' # put an obstacle there
@@ -144,7 +144,7 @@ while searchspace:
             break
         history.append([my_grid.guard_row,my_grid.guard_col,my_grid.guard_dir])
     #my_grid.grid[my_grid.start_row][my_grid.start_col] = '^'
-    durations.append(time.time() - start)
+    # durations.append(time.time() - start)
 
     
     
@@ -153,4 +153,4 @@ while searchspace:
     # my_grid.grid[cur[0]][cur[1]] = '.' # remove obstacle before moving to the next candidate
 
 print(loop_count)
-print(f'max time: {max(durations)}, min time:{min(durations)}, average: {statistics.mean(durations)}, std dev: {statistics.stdev(durations)}')
+# print(f'max time: {max(durations)}, min time:{min(durations)}, average: {statistics.mean(durations)}, std dev: {statistics.stdev(durations)}')
