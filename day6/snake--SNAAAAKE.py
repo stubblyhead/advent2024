@@ -1,12 +1,12 @@
-import time
-import statistics
+# import time
+# import statistics
 
 class Grid:
     def __init__(self, lines):
         self.grid = []
         for l in lines:
             self.grid.append(list(l.strip()))
-        self.guard_row = 0
+        self.guard_row = 0 
         self.guard_col = 0
         self.height = len(self.grid)
         self.width = len(self.grid[0])
@@ -40,35 +40,69 @@ class Grid:
         self.grid[self.guard_row][self.guard_col] = '+'
 
     def guard_move(self):
-        def next_space(self):  # determine what the next space is based on current direction of travel
-            if self.guard_dir == 'up':
-                return [self.guard_row-1,self.guard_col]
-            elif self.guard_dir == 'right':
-                return [self.guard_row,self.guard_col+1]
-            elif self.guard_dir == 'down':
-                return [self.guard_row+1,self.guard_col]
-            elif self.guard_dir == 'left':
-                return [self.guard_row,self.guard_col-1]
+        # def next_space(self):  # determine what the next space is based on current direction of travel
+        #     if self.guard_dir == 'up':
+        #         return [self.guard_row-1,self.guard_col]
+        #     elif self.guard_dir == 'right':
+        #         return [self.guard_row,self.guard_col+1]
+        #     elif self.guard_dir == 'down':
+        #         return [self.guard_row+1,self.guard_col]
+        #     elif self.guard_dir == 'left':
+        #         return [self.guard_row,self.guard_col-1]
             
-        next = next_space(self)
-        if next[0] in [-1,self.height] or next[1] in [-1,self.width]:  # if next space is OOB then mark exited and return
-            self.guard_exited = True
-            return
-        
-        if self.grid[next[0]][next[1]] == '#':  # turn right if the next space ahead is an obstacle
-            self.guard_turn()
-            return
+        # next = next_space(self)
+
+        if self.guard_dir == 'up':
+            while self.guard_row-1 >= 0 and self.grid[self.guard_row-1][self.guard_col] != '#':
+                self.guard_row -= 1
+                self.visited.add(tuple([self.guard_row,self.guard_col]))
+            if self.guard_row == 0:
+                self.guard_exited = True
+                return
+            else:
+                self.guard_dir = 'right'
+                return
+        elif self.guard_dir == 'right':
+            while self.guard_col < self.width-1 and self.grid[self.guard_row][self.guard_col+1] != '#':
+                self.guard_col += 1
+                self.visited.add(tuple([self.guard_row,self.guard_col]))
+            if self.guard_col == self.width-1:
+                self.guard_exited = True
+                return
+            else:
+                self.guard_dir = 'down'
+                return
+        elif self.guard_dir == 'down':
+            while self.guard_row < self.height-1 and self.grid[self.guard_row+1][self.guard_col] != '#':
+                self.guard_row += 1
+                self.visited.add(tuple([self.guard_row,self.guard_col]))
+            if self.guard_row == self.height-1:
+                self.guard_exited = True
+                return
+            else:
+                self.guard_dir = 'left'
+                return
+        elif self.guard_dir == 'left':
+            while self.guard_col-1 >= 0 and self.grid[self.guard_row][self.guard_col-1] != '#':
+                self.guard_col -= 1
+                self.visited.add(tuple([self.guard_row,self.guard_col]))
+            if self.guard_col == 0:
+                self.guard_exited = True
+                return
+            else:
+                self.guard_dir = 'up'
+                return
         
         # otherwise update current position and add to set of visited spaces
-        [self.guard_row, self.guard_col] = next
-        self.visited.add(tuple(next))
-        if self.guard_dir in ['up','down']:
-            self.grid[self.guard_row][self.guard_col] = '|'
-        elif self.guard_dir in ['right','left']:
-            self.grid[self.guard_row][self.guard_col] = '-'
+        # [self.guard_row, self.guard_col] = next
+        # self.visited.add(tuple(next))
+        # if self.guard_dir in ['up','down']:
+        #     self.grid[self.guard_row][self.guard_col] = '|'
+        # elif self.guard_dir in ['right','left']:
+        #     self.grid[self.guard_row][self.guard_col] = '-'
 
 lines = open('input').readlines()
-start = time.time()
+# start = time.time()
 my_grid = Grid(lines)
 while not my_grid.guard_exited:
     my_grid.guard_move()
@@ -77,18 +111,18 @@ while not my_grid.guard_exited:
 # for l in my_grid.grid:
 #     print(''.join(l))
 print(len(my_grid.visited))
-end = time.time()
-print(f'took {end-start}')
+# end = time.time()
+# print(f'took {end-start}')
 searchspace = my_grid.visited.copy() # only need to check visited spaces becuase adding an obstacle outside won't affect guard's movement
 # i don't think copy() is strictly necessary here, but I've been bitten enough from not using it that it's probably a good idea anyway
 searchspace.remove(tuple([my_grid.start_row, my_grid.start_col]))  # can't use starting position so remove from search space
 
 loop_count = 0
 check_count = 0
-durations = []
+# durations = []
 while searchspace:
     check_count += 1
-    start = time.time()
+    # start = time.time()
     cur = searchspace.pop() # get a candidate to check
     my_grid = Grid(lines)  # starting with a fresh instance each time is probably a good idea
     my_grid.grid[cur[0]][cur[1]] = '#' # put an obstacle there
@@ -110,7 +144,7 @@ while searchspace:
             break
         history.append([my_grid.guard_row,my_grid.guard_col,my_grid.guard_dir])
     #my_grid.grid[my_grid.start_row][my_grid.start_col] = '^'
-    durations.append(time.time() - start)
+    # durations.append(time.time() - start)
 
     
     
@@ -119,4 +153,4 @@ while searchspace:
     # my_grid.grid[cur[0]][cur[1]] = '.' # remove obstacle before moving to the next candidate
 
 print(loop_count)
-print(f'max time: {max(durations)}, min time:{min(durations)}, average: {statistics.mean(durations)}, std dev: {statistics.stdev(durations)}')
+# print(f'max time: {max(durations)}, min time:{min(durations)}, average: {statistics.mean(durations)}, std dev: {statistics.stdev(durations)}')
