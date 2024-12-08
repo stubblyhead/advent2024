@@ -1,7 +1,3 @@
-from operator import sub, div
-def concat(a,b):
-    return int(str(a)+str(b))
-
 lines = open('input').readlines()
 
 eqns = {}
@@ -19,7 +15,6 @@ def num_to_base(n, b):
     return digits[::-1]
 
 def check_valid(target, operands, base):
-    ops = {'0':add,'1':mul,'2':concat}  # this makes me feel kind of dirty but it beats 10 billion calls to int()
     perms = pow(base,len(operands)-1)
     for perm in perms:
         this_target = target
@@ -54,5 +49,9 @@ def check_valid(target, operands, base):
         else:
             return False
         
-
+total = 0
+for k,v in eqns.items():
+    if check_valid(k,v,2):
+        total += k
+print(total)
                 
