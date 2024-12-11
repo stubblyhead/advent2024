@@ -44,16 +44,22 @@ for _, sites in frequencies.items():
             point_a,point_b = list(sites[i]),list(sites[j])
             delta_x = point_a[0] - point_b[0]
             delta_y = point_a[1] - point_b[1]
-
+            antinodes.add(tuple(point_a))
             while point_a[0] >= 0 and point_a[0] < height and point_a[1] >= 0 and point_a[1] < width:
-                print(type(point_a))
-
                 point_a[0] += delta_x
                 point_a[1] += delta_y
                 antinodes.add(tuple(point_a))
-            while point_b[0] >= 0 and point_b[0] < height and point_b[1] >= 0 and point_b[1] < width:
-                point_b[0] += delta_x
-                point_b[1] += delta_y
-                antinodes.add(tuple(point_b))
+            point_a = list(sites[i])
+            while point_a[0] >= 0 and point_a[0] < height and point_a[1] >= 0 and point_a[1] < width:
+                point_a[0] -= delta_x
+                point_a[1] -= delta_y
+                antinodes.add(tuple(point_a))
+            
+to_remove = []
+for a in antinodes:
+    if a[0] < 0 or a[0] >= height or a[1] < 0 or a[1] >= width:
+        to_remove.append(a)
 
+for i in to_remove:
+    antinodes.remove(i)
 print(len(antinodes))
