@@ -21,22 +21,12 @@ antinodes = set()
 for _, sites in frequencies.items():
     for i in range(len(sites)-1):  
         for j in range(i+1,len(sites)):  # should do a round robin of each group of points
-            # TODO get delta_x and delta_y between two points; find point 
-            # that far away on opposite side of other point
             point_a,point_b = sites[i],sites[j]
-            if point_a[0] > point_b[1]:
-                delta_x = point_a[0] - point_b[0]
-                delta_y = point_a[1] - point_b[1]
-                antinode_a = [point_a[0] + delta_x, point_a[1] + delta_y]
-                antinode_b = [point_b[0] - delta_x, point_b[1] - delta_y]
-            else:
-                delta_x = point_b[0] - point_a[0]
-                delta_y = point_b[1] - point_a[1]
-                antinode_a = [point_a[0] - delta_x, point_a[1] - delta_y]
-                antinode_b = [point_b[0] + delta_x, point_b[1] + delta_y]
-
-            antinodes.add(tuple(antinode_a))
-            antinodes.add(tuple(antinode_b))
+            delta_x = point_a[0] - point_b[0]
+            delta_y = point_a[1] - point_b[1]
+            antinode_a = (point_a[0] + delta_x, point_a[1] + delta_y)
+            antinode_b = (point_b[0] - delta_x, point_b[1] - delta_y)
+            antinodes.update({antinode_a, antinode_b})
 
 to_remove = []
 for a in antinodes:
@@ -45,5 +35,25 @@ for a in antinodes:
 
 for i in to_remove:
     antinodes.remove(i)
+
+print(len(antinodes))
+
+for _, sites in frequencies.items():
+    for i in range(len(sites)-1):  
+        for j in range(i+1,len(sites)):  
+            point_a,point_b = list(sites[i]),list(sites[j])
+            delta_x = point_a[0] - point_b[0]
+            delta_y = point_a[1] - point_b[1]
+
+            while point_a[0] >= 0 and point_a[0] < height and point_a[1] >= 0 and point_a[1] < width:
+                print(type(point_a))
+
+                point_a[0] += delta_x
+                point_a[1] += delta_y
+                antinodes.add(tuple(point_a))
+            while point_b[0] >= 0 and point_b[0] < height and point_b[1] >= 0 and point_b[1] < width:
+                point_b[0] += delta_x
+                point_b[1] += delta_y
+                antinodes.add(tuple(point_b))
 
 print(len(antinodes))
