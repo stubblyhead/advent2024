@@ -1,4 +1,4 @@
-diskmap = list(open('input').readline().strip())
+diskmap = list(open('testcase').readline().strip())
 
 # making it a single string seems like a trap, but i might end up
 # doing it anyway
@@ -45,3 +45,20 @@ for i in range(len(refragged)):
     checksum += i * refragged[i]
 
 print(checksum)
+
+# part 2, might regret not splitting this into another file
+
+diskmap = list(open('testcase').readline().strip())
+files = []
+freespace = []
+while len(diskmap) > 1:
+    files.append(int(diskmap.pop(0)))
+    freespace.append(int(diskmap.pop(0)))
+files.append(int(diskmap.pop()))
+
+diskmap = []
+for i in range(len(freespace)):
+    diskmap += [ i for _ in range(files[i]) ]
+    diskmap += [ '.' for _ in range(freespace[i] )]
+diskmap += [ len(files)-1 for _ in range(files[-1]) ]
+print(diskmap)
