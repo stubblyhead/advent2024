@@ -28,6 +28,8 @@ for i in range(file_count):
     if freespace:
         this_freespace = freespace.pop(0)
         to_move = []
+        if this_freespace == 0:
+            continue
         while len(to_move) < this_freespace:
             backfill_val, backfill_count = backfill.pop(0)
             to_move += [ backfill_val for _ in range(min(backfill_count, this_freespace)) ]
