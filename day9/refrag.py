@@ -52,13 +52,33 @@ diskmap = list(open('testcase').readline().strip())
 files = []
 freespace = []
 while len(diskmap) > 1:
-    files.append(int(diskmap.pop(0)))
+    files.append([len(files),int(diskmap.pop(0))])
     freespace.append(int(diskmap.pop(0)))
-files.append(int(diskmap.pop()))
+files.append([len(files),int(diskmap.pop())])
 
 diskmap = []
-for i in range(len(freespace)):
-    diskmap += [ i for _ in range(files[i]) ]
-    diskmap += [ '.' for _ in range(freespace[i] )]
-diskmap += [ len(files)-1 for _ in range(files[-1]) ]
+# for i in range(len(freespace)):
+#     diskmap += [ i for _ in range(files[i]) ]
+#     diskmap += [ '.' for _ in range(freespace[i] )]
+# diskmap += [ len(files)-1 for _ in range(files[-1]) ]
+
+for _ in files:
+    i = files.pop(0)
+    diskmap += [ i[0] for _ in range(i[1]) ]
+    if freespace:
+        this_freespace = freespace.pop(0)
+    else:
+        break
+    for i in files[::-1]:
+        if i[1] <= this_freespace: # this file will fit in the gap
+            files.remove(i)  # remove it from the list so we don't use it more than once
+            diskmap += [ i[0] for _ in range(i[1]) ] # append it to the diskmap
+            this_freespace -= i[1]  # reduce the current freespace count by the number we just added
+            if not this_freespace:  # if we filled the space then we're done
+                break
+    diskmap += [ '.' for _ in range(this_freespace) ] # this_freespace should be either 0 (completely filled) or there weren't any files small enough, so leave space blank
+#TODO find way to keep track of new freespace getting added as files get moved forward
 print(diskmap)
+
+        
+    
