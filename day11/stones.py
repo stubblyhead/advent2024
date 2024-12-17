@@ -17,7 +17,9 @@ def get_left_half(num):
     else:
         return -1
 
-for _ in range(25):
+for _ in range(75):
+    if _ % 5 == 0:
+        print(f"iteration {_}")
     new_stones = []
     for i in stones:
         if i == 0:
