@@ -17,20 +17,29 @@ def get_left_half(num):
     else:
         return -1
 
-for _ in range(75):
-    if _ % 5 == 0:
-        print(f"iteration {_}")
+memo = {}
+hit = 0
+miss = 0
+for _ in range(40):
     new_stones = []
     for i in stones:
         if i == 0:
             new_stones += [1]
-        elif floor(log(i,10)) % 2 == 1:
-            p = floor(log(i,10))
-            l = i // pow(10,p//2+1)
-            r = i-l*pow(10,p//2+1)
-            new_stones += [l,r]
+            continue
+        p = floor(log(i,10))
+        if p % 2 == 1:
+            if i in memo.keys():
+                new_stones += memo[i]
+                
+            else:
+                l = i // pow(10,p//2+1)
+                r = i-l*pow(10,p//2+1)
+                new_stones += [l,r]
+                memo[i] = [l,r]
+                
         else:
-            new_stones += [i * 2024]
+            new_stones.append(i * 2024)
     stones = new_stones
 
 print(len(stones))
+print(len(set(stones)))
