@@ -1,4 +1,4 @@
-grid = [ list(i.strip()) for i in open('testcase1').readlines() ]
+grid = [ list(i.strip()) for i in open('input').readlines() ]
 
 # padding grid for easier OOB testing
 for l in range(len(grid)):
