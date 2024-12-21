@@ -26,7 +26,7 @@ def paint(grid, start):
         for r,c in adj:
             adj_crop = grid[r][c]
             if crop == adj_crop:  # if the adjacent crop is the same as the starting crop
-                if (r,c) not in region: # and it's not already on the horizon
+                if (r,c) not in horizon and (r,c) not in region: # and it's not already on the horizon
                     horizon.append((r,c))  # add it to the horizon
             else: # if the crops are different then it's a boundary between regions
                 perimeter += 1  # so we need to add a fence
