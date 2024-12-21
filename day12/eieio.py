@@ -38,7 +38,8 @@ for row in range(len(grid)):
         if grid[row][col] != '.':
             field.append((row,col))
 cost = 0
-for plot in field:
+while field:
+    plot = field[0]
     ans = paint(grid, plot)
     perimeter = ans['perimeter']
     region = ans['region']
