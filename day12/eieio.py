@@ -18,6 +18,7 @@ def paint(grid, start):
     horizon = [start]
     region = set()
     perimeter = 0
+    sides = 0
     while horizon:
         cur = horizon.pop(0) # get a point off the horizon
         region.add(cur) # add it to the region
@@ -30,6 +31,10 @@ def paint(grid, start):
                     horizon.append((r,c))  # add it to the horizon
             else: # if the crops are different then it's a boundary between regions
                 perimeter += 1  # so we need to add a fence
+        if len(region) >= 2:
+            sides = 4
+        else:
+            pass
     return {'perimeter': perimeter, 'region': region}
 
 field = []
