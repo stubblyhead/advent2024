@@ -34,3 +34,26 @@ for l in lines:
     elif cur.x > hw and cur.y > hh:
         ur += 1
 print(ll*lr*ur*ul)
+
+robots = []
+
+def print_grid(s, r):
+    w,h = s
+    g = [ [ '.' for i in range(w)] for j in range(h) ]
+    for cur in r:
+        g[cur.x][cur.y] = '#'
+    for i in g:
+        print(''.join(i))
+    
+for l in lines:
+    p,v = l.split()
+    pos = tuple(map(int, p[2:].split(',')))
+    vel = tuple(map(int,v[2:].split(',')))
+    robots.append(Robot(pos,vel))
+i = 0
+while True:
+    i += 1
+    for r in robots:
+        r.move(1,size)
+    input(i)
+    print_grid(size, robots)
