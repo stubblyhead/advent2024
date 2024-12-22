@@ -14,9 +14,9 @@ for g in games:
     buttons = np.array([[a_x, b_x],[a_y,b_y]])
     prize = np.array([prize_x, prize_y])
     solution = np.linalg.solve(buttons, prize)
-    if np.allclose(solution.astype(int),solution):
+    if np.allclose(np.round(solution).astype(int),solution):
         count += 1
         coins += (solution[0]*3 + solution[1])
+    
 
-print(f'{count} of {len(games)} have a solution')
-print(int(coins))
+print(coins)
