@@ -1,9 +1,12 @@
-filename = 'testcase'
+filename = 'input'
 lines = open(filename).readlines()
 if filename == 'testcase':
     size = (7,11)
 else:
     size = (103,101)
+
+hh = int(size[0]/2)
+hw = int(size[1]/2)
 
 class Robot:
     def __init__(self, p, v):
@@ -15,12 +18,19 @@ class Robot:
         self.x = (self.x+seconds*self.dx) % w
         self.y = (self.y+seconds*self.dy) % h
     
-
-#for l in lines:
-for _ in range(1):
-    p,v = "p=2,4 v=2,-3".split()
+ul,ur,ll,lr = 0,0,0,0
+for l in lines:
+    p,v = l.split()
     pos = tuple(map(int, p[2:].split(',')))
     vel = tuple(map(int,v[2:].split(',')))
     cur = Robot(pos,vel)
-    cur.move(3,size)
-    print(cur.x,cur.y)
+    cur.move(100,size)
+    if cur.x < hw and cur.y < hh:
+        ll += 1
+    elif cur.x < hw and cur.y > hh:
+        ul += 1
+    elif cur.x > hw and cur.y < hh:
+        lr += 1
+    elif cur.x > hw and cur.y > hh:
+        ur += 1
+print(ll*lr*ur*ul)
