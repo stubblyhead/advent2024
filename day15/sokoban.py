@@ -1,4 +1,4 @@
-warehouse, moves = list(open('testcase2').read().split('\n\n'))
+warehouse, moves = list(open('input').read().split('\n\n'))
 warehouse = [ list(w.strip()) for w in warehouse.split() ]
 
 for row in range(len(warehouse)):
@@ -105,4 +105,9 @@ for m in moves:
     elif m == 'v':
         move_down(robot, warehouse)
 
-print_warehouse(warehouse)
+coord_sum = 0
+for row in range(len(warehouse)):
+    for col in range(len(warehouse[row])):
+        if warehouse[row][col] == 'O':
+            coord_sum = coord_sum + 100*row + col
+print(coord_sum)
