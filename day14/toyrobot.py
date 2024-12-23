@@ -51,9 +51,12 @@ for l in lines:
     vel = tuple(map(int,v[2:].split(',')))
     robots.append(Robot(pos,vel))
 i = 0
+
 while True:
     i += 1
     for r in robots:
         r.move(1,size)
-    input(i)
-    print_grid(size, robots)
+    if i % 103 == 19 and i % 101 == 74:
+        print(i)
+        print_grid(size, robots)
+        input()
